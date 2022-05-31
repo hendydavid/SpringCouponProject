@@ -21,10 +21,11 @@ public class Customer {
     @Id
     @GeneratedValue
     private int customerId;
-
     private String firstName;
-
     private String lastName;
+    private String email;
+    private String password;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<Coupon> coupons = new ArrayList<Coupon>();
 
