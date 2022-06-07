@@ -23,15 +23,18 @@ public class SpringCouponApplication {
         CompanyService companyService = ctx.getBean(CompanyService.class);
         CouponService couponService = ctx.getBean(CouponService.class);
 
-        Company company = getCompany(1);
-        companyService.saveCompany(company);
-        Coupon coupon = getCoupon(1, company);
-        //    company.addCoupon(coupon);
-        couponService.saveCoupon(new Coupon("d", "c", company, 100, 100.0, 1,"bg"));
 
+        for (int i = 150; i > 5; i--) {
+            Company company = getCompany(i);
+            companyService.saveCompany(company);
+        }
+
+
+//        companyService.saveCompany(company);
+//        Coupon coupon = getCoupon(1, company);
+//        couponService.saveCoupon(coupon);
 
     }
-
 
     public static Company getCompany(int i) {
         Company company = Company.builder().companyName("company" + i).password("password" + i).email("email" + i).build();

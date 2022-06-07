@@ -1,16 +1,16 @@
 package com.springCoupon.Services;
 
 import com.springCoupon.Entities.Company;
-import com.springCoupon.Entities.Coupon;
 import com.springCoupon.repositories.CompanyRepository;
 import com.springCoupon.repositories.CouponRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CompanyService {
+
 
     @Autowired
     CompanyRepository companyRepository;
@@ -19,6 +19,11 @@ public class CompanyService {
     CouponRepository couponRepository;
 
     private int companyId = 1;
+
+    public Optional<Company> getCompany(int i) {
+        return companyRepository.findById(i);
+    }
+
 
     public boolean isCompanyNameExist(String companyName) {
 
