@@ -24,9 +24,10 @@ public class SpringCouponApplication {
         CouponService couponService = ctx.getBean(CouponService.class);
 
         Company company = getCompany(1);
+        companyService.saveCompany(company);
         Coupon coupon = getCoupon(1, company);
         //    company.addCoupon(coupon);
-        couponService.saveCoupon(coupon);
+        couponService.saveCoupon(new Coupon("d", "c", company, 100, 100.0, 1,"bg"));
 
 
     }

@@ -38,5 +38,15 @@ public class Coupon {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
-
+    public Coupon(String couponName, String description, Company company, int amount, double price, int categoryId, String imageURL) {
+        this.couponName = couponName;
+        this.description = description;
+        this.company = company;
+        this.amount = amount;
+        this.price = price;
+        this.categoryId = categoryId;
+        this.imageURL = imageURL;
+        this.startDate = LocalDateTime.now();
+        this.endDate = this.startDate.plusMonths(1);
+    }
 }
