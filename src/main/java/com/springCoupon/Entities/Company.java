@@ -32,5 +32,11 @@ public class Company {
     @OneToMany(mappedBy = "company", fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<Coupon> coupons = new ArrayList<Coupon>();
 
+    public void addCoupon(Coupon coupon){
+    this.coupons.add(coupon);
+    }
+
+
+
 
 }

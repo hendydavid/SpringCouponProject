@@ -29,7 +29,7 @@ public class Coupon {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "company_ID")
+    @JoinColumn(name = "company_Id")
     private Company company;
     private int amount;
     private double price;
