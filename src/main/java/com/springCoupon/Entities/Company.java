@@ -27,7 +27,7 @@ public class Company {
     private String companyName;
     private String email;
     private String password;
-    private LocalDate dateCreated;
+    private LocalDateTime dateCreated;
 
     @OneToMany(mappedBy = "company", fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<Coupon> coupons = new ArrayList<Coupon>();

@@ -5,6 +5,7 @@ import com.springCoupon.Entities.Coupon;
 import com.springCoupon.Entities.Customer;
 import com.springCoupon.Services.CompanyService;
 import com.springCoupon.Services.CouponService;
+import com.springCoupon.Services.CustomerService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -20,24 +21,23 @@ public class SpringCouponApplication {
 
         ConfigurableApplicationContext ctx = SpringApplication.run(SpringCouponApplication.class, args);
 
-        CompanyService companyService = ctx.getBean(CompanyService.class);
-        CouponService couponService = ctx.getBean(CouponService.class);
-
-
-        for (int i = 150; i > 5; i--) {
-            Company company = getCompany(i);
-            companyService.saveCompany(company);
-        }
-
-
-//        companyService.saveCompany(company);
-//        Coupon coupon = getCoupon(1, company);
-//        couponService.saveCoupon(coupon);
 
     }
 
     public static Company getCompany(int i) {
-        Company company = Company.builder().companyName("company" + i).password("password" + i).email("email" + i).build();
+
+        int year = new Random().nextInt(22) + 2000;
+        int month = new Random().nextInt(11) + 1;
+        int day = new Random().nextInt(27) + 1;
+        int hour = new Random().nextInt(23) + 1;
+        int minute = new Random().nextInt(58) + 1;
+        int price = new Random().nextInt(239) + 1;
+        int categoryId = new Random().nextInt(9) + 1;
+        int amount = new Random().nextInt(499) + 1;
+
+
+        Company company = Company.builder().companyName("company" + i).password("password" + i).email("email" + i)
+                .dateCreated(LocalDateTime.of(year, month, day, hour, minute)).build();
         return company;
     }
 
@@ -53,11 +53,14 @@ public class SpringCouponApplication {
         int day = new Random().nextInt(27) + 1;
         int hour = new Random().nextInt(23) + 1;
         int minute = new Random().nextInt(58) + 1;
+        int price = new Random().nextInt(239) + 1;
+        int categoryId = new Random().nextInt(9) + 1;
+        int amount = new Random().nextInt(499) + 1;
 
 
-        Coupon coupon = Coupon.builder().couponName("couponName " + i).amount(new Random().nextInt(150) + 10)
-                .categoryId(new Random().nextInt(9) + 1).description("description" + i)
-                .price(new Random().nextInt() + 1.5).imageURL("imageUrl" + i)
+        Coupon coupon = Coupon.builder().couponName("couponName " + i).amount(amount)
+                .categoryId(categoryId).description("description" + i)
+                .price(price).imageURL("imageUrl" + i)
                 .endDate(LocalDateTime.of(year, month, day, hour, minute)).company(company).build();
 
         //  coupon.getCompany().addCoupon(coupon);
