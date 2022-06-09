@@ -15,22 +15,27 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @EqualsAndHashCode(of = "companyId")
-@ToString(of = {"companyId", "companyName", "email",})
+@ToString(of = {"companyId", "companyName", "email",
+"dateCreated"})
 
 public class Company {
 
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int companyId;
 
     private String companyName;
     private String email;
     private String password;
-    private LocalDate dateCreated;
+    private LocalDateTime dateCreated;
 
-    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @OneToMany(orphanRemoval = true, mappedBy = "company", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Coupon> coupons = new ArrayList<Coupon>();
+
+    public void addCoupon(Coupon coupon) {
+        this.coupons.add(coupon);
+    }
 
 
 }
