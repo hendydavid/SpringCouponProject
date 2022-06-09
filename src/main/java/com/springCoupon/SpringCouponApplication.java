@@ -6,6 +6,7 @@ import com.springCoupon.Entities.Customer;
 import com.springCoupon.Services.AdminService;
 import com.springCoupon.Services.CompanyService;
 import com.springCoupon.Services.CustomerService;
+import com.springCoupon.exception.AdminException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -23,40 +24,12 @@ public class SpringCouponApplication {
         CompanyService companyService = ctx.getBean(CompanyService.class);
         CustomerService customerService = ctx.getBean(CustomerService.class);
         AdminService adminService = ctx.getBean(AdminService.class);
+        System.out.println(adminService.isEmailExist("email4994"));
 
 
 
-//        companyService.getByMaxPrice(145).forEach(System.out::println);
-//        System.out.println(companyService.loginCheck("email4", "password4"));
-//        System.out.println(companyService.getCompanyId());
 
 
-//        Company company = companyService.getCompany(6).get();
-//        companyService.deleteCompany(company);
-
-
-//        for (int i = 1; i <= 300; i++) {
-//            int id = new Random().nextInt(299) + 1;
-//            Company company = companyService.getCompany(id).get();
-//            Coupon coupon = getCoupon(i, company);
-//            couponService.saveCoupon(coupon);
-//        }
-//        Coupon coupon = couponService.getCoupon(260);
-//        System.out.println(coupon);
-//        Company company = companyService.getCompany(250).get();
-//        companyService.deleteCompany(company);
-
-//        for (int i = 1; i <= 300; i++) {
-//
-//            Customer customer = customerService.getCustomer(i).get();
-//
-//            for (int y = 1; y <= 10; y++) {
-//                int id = new Random().nextInt(299) + 1;
-//                Coupon coupon = couponService.getCoupon(id);
-//                customer.addCoupon(coupon);
-//                customerService.saveCustomer(customer);
-//
-//            }
 
     }
 
