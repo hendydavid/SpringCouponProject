@@ -23,6 +23,9 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
     @Query(value = "select * from companies c where c.email = :email and c.password = :password", nativeQuery = true)
     Optional<Company> companyLoginCheck(@Param("email") String email, @Param("password") String password);
 
+    Optional<Company> findByEmailAndPassword(String email, String password);
+
+
 //    @Modifying // we have to check why is not working me
 //    @Query(value = "update companies set email = :email, password = :password where company_id = :companyId", nativeQuery = true)
 //    void updateCompany(@Param("email") String email, @Param("password") String password, @Param("companyId") int companyId);

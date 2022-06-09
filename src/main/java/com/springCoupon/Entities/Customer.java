@@ -20,7 +20,7 @@ import java.util.List;
 public class Customer {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int customerId;
     private String firstName;
     private String lastName;
@@ -37,7 +37,7 @@ public class Customer {
         this.password = password;
     }
 
-    public void addCoupon(Coupon coupon){
+    public void addCoupon(Coupon coupon) {
         this.coupons.add(coupon);
     }
 

@@ -3,8 +3,8 @@ package com.springCoupon;
 import com.springCoupon.Entities.Company;
 import com.springCoupon.Entities.Coupon;
 import com.springCoupon.Entities.Customer;
+import com.springCoupon.Services.AdminService;
 import com.springCoupon.Services.CompanyService;
-import com.springCoupon.Services.CouponService;
 import com.springCoupon.Services.CustomerService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,9 +20,46 @@ public class SpringCouponApplication {
     public static void main(String[] args) {
 
         ConfigurableApplicationContext ctx = SpringApplication.run(SpringCouponApplication.class, args);
+        CompanyService companyService = ctx.getBean(CompanyService.class);
+        CustomerService customerService = ctx.getBean(CustomerService.class);
+        AdminService adminService = ctx.getBean(AdminService.class);
 
+
+
+//        companyService.getByMaxPrice(145).forEach(System.out::println);
+//        System.out.println(companyService.loginCheck("email4", "password4"));
+//        System.out.println(companyService.getCompanyId());
+
+
+//        Company company = companyService.getCompany(6).get();
+//        companyService.deleteCompany(company);
+
+
+//        for (int i = 1; i <= 300; i++) {
+//            int id = new Random().nextInt(299) + 1;
+//            Company company = companyService.getCompany(id).get();
+//            Coupon coupon = getCoupon(i, company);
+//            couponService.saveCoupon(coupon);
+//        }
+//        Coupon coupon = couponService.getCoupon(260);
+//        System.out.println(coupon);
+//        Company company = companyService.getCompany(250).get();
+//        companyService.deleteCompany(company);
+
+//        for (int i = 1; i <= 300; i++) {
+//
+//            Customer customer = customerService.getCustomer(i).get();
+//
+//            for (int y = 1; y <= 10; y++) {
+//                int id = new Random().nextInt(299) + 1;
+//                Coupon coupon = couponService.getCoupon(id);
+//                customer.addCoupon(coupon);
+//                customerService.saveCustomer(customer);
+//
+//            }
 
     }
+
 
     public static Company getCompany(int i) {
 
@@ -60,7 +97,7 @@ public class SpringCouponApplication {
 
         Coupon coupon = Coupon.builder().couponName("couponName " + i).amount(amount)
                 .categoryId(categoryId).description("description" + i)
-                .price(price).imageURL("imageUrl" + i)
+                .price(price).imageURL("imageUrl" + i).startDate(LocalDateTime.now())
                 .endDate(LocalDateTime.of(year, month, day, hour, minute)).company(company).build();
 
         //  coupon.getCompany().addCoupon(coupon);

@@ -10,12 +10,15 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class CustomerService {
+public class CustomerService extends MainService {
 
-    @Autowired
-    CustomerRepository customerRepository;
-    @Autowired
-    com.springCoupon.repositories.CouponRepository couponRepository;
+    public void deleteCustomer(Customer customer) {
+        customerRepository.delete(customer);
+    }
+
+    public void deleteCustomer(int customerId) {
+        customerRepository.deleteById(customerId);
+    }
 
     public Customer addCustomer(Customer customer) {
         return customerRepository.save(customer);
@@ -25,11 +28,11 @@ public class CustomerService {
         customerRepository.addPurchase(customerId, couponId);
     }
 
-    public Optional<Customer> getCustomer(int customerId){
+    public Optional<Customer> getCustomer(int customerId) {
         return customerRepository.findById(customerId);
     }
 
-    public Optional<Coupon> getCoupon(int couponId){
+    public Optional<Coupon> getCoupon(int couponId) {
         return couponRepository.findById(couponId);
     }
 
