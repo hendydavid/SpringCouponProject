@@ -3,6 +3,7 @@ package com.springCoupon.Services;
 
 import com.springCoupon.Entities.Company;
 import com.springCoupon.Entities.Coupon;
+import com.springCoupon.Entities.Customer;
 import com.springCoupon.exception.AdminException;
 import com.springCoupon.repositories.CouponRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import javax.transaction.Transactional;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -40,7 +42,7 @@ public class AdminService extends MainService {
 
         if (isEmailExist(company.getEmail())) {
             throw new AdminException("This company already exist");
-        } else if (companyRepository.findByCompany_Name(company.getCompanyName()).isPresent()) {
+        } else if (companyRepository.findByCompanyName(company.getCompanyName()).isPresent()) {
             throw new AdminException("This company name already exist");
         }
         companyRepository.save(company);
@@ -65,11 +67,60 @@ public class AdminService extends MainService {
         return companyRepository.findAll();
     }
 
+    public Company getOneCompany(int companyId) {
+        return companyRepository.findById(companyId).get();
+    }
 
+    public void AddCustomer(Customer customer) throws AdminException {
 
+        if (customerRepository.findByEmail(customer.getEmail()).isPresent()) {
+            throw new AdminException("this email belong to another  customer");
+        }
+        customerRepository.save(customer);
+    }
+
+    public void updateCustomerDetails(String email, String password, int customerId) throws AdminException {
+        Optional<Customer> customer = customerRepository.findById(customerId);
+
+        if (!customer.isPresent()) {
+            throw new AdminException("This customer isn't exist");
+        } else if (customerRepository.findByEmail(customer.get().getEmail()).isPresent()) {
+            throw new AdminException("this email is already exist");
+        }
+
+        Customer customerToDb = customer.get();
+        customerToDb.setEmail(email);
+        customerToDb.setPassword(password);
+        customerRepository.save(customerRepository.getById(customerId));
+    }
+
+    public void deleteCustomer(Customer customer) throws AdminException {
+
+        if (customerRepository.findByEmail(customer.getEmail()).isPresent()) {
+            throw new AdminException("this customer is not exist");
+        }
+
+        customerRepository.delete(customer);
+
+    }
+
+    public List<Customer> getAllCustomer() {
+        return customerRepository.findAll();
+    }
+
+    public Customer getOneCustomer(int customerId) throws AdminException {
+        if (!customerRepository.findById(customerId).isPresent()) {
+            throw new AdminException("this customer is not exist");
+        }
+        return customerRepository.getById(customerId);
+    }
 
     public boolean isEmailExist(String email) {
         return companyRepository.findByEmail(email).isPresent();
+    }
+
+    public void rakLivdok(Coupon coupon) {
+        couponRepository.save(coupon);
     }
 
 

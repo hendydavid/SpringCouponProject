@@ -2,6 +2,7 @@ package com.springCoupon.Services;
 
 import com.springCoupon.Entities.Company;
 import com.springCoupon.Entities.Coupon;
+import com.springCoupon.exception.CompanyException;
 import com.springCoupon.repositories.CompanyRepository;
 import com.springCoupon.repositories.CouponRepository;
 import org.hibernate.annotations.Proxy;
@@ -16,7 +17,6 @@ import java.util.Optional;
 
 @Service
 public class CompanyService extends MainService {
-
 
     private int companyId = 1;
 
@@ -38,18 +38,18 @@ public class CompanyService extends MainService {
         return couponRepository.findByCompanyIdAndCategoryId(categoryId, companyId);
     }
 
-    public Coupon addCoupon(Coupon coupon) {
-
-        int dataBaseId = couponRepository.findByCouponName(coupon.getCouponName()).get().getCouponId();
-
+    public Coupon addCoupon(Coupon coupon) throws CompanyException {
         if (!isCouponExistByName(coupon)) {
             coupon.setCompany(companyRepository.getById(companyId));
             return couponRepository.save(coupon);
-        } else if (dataBaseId == companyId) {
-            System.out.println("this name already in use");
-            //throw new exception the same name belongs to the same company
-        }
+        } else if (isCouponExistByName(coupon)) {
+            int companyId = couponRepository.findByCouponName(coupon.getCouponName()).get().getCompany().getCompanyId();
+            if (companyId == this.companyId) {
+                System.out.println("this name already in use");
+                throw new CompanyException("the same name belongs to the same company");
+            }
 
+        }
         coupon.setCompany(companyRepository.getById(companyId));
         return couponRepository.save(coupon);
     }
@@ -100,6 +100,5 @@ public class CompanyService extends MainService {
     public int getCompanyId() {
         return this.companyId;
     }
-
 
 }

@@ -34,8 +34,9 @@ public class Coupon {
     @JoinColumn(name = "company_Id")
     private Company company;
 
-    @ManyToMany(mappedBy = "coupons", fetch = FetchType.LAZY)
-    List<Customer> customer = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "coupons", fetch = FetchType.EAGER)
+    List<Customer> customers = new ArrayList<>();
 
     private int amount;
     private double price;
@@ -44,16 +45,8 @@ public class Coupon {
     private LocalDateTime startDate = LocalDateTime.now();
     private LocalDateTime endDate;
 
-    public Coupon(String couponName, String description, Company company, int amount, double price, int categoryId, String imageURL) {
-        this.couponName = couponName;
-        this.description = description;
-        this.company = company;
-        this.amount = amount;
-        this.price = price;
-        this.categoryId = categoryId;
-        this.imageURL = imageURL;
-        this.startDate = LocalDateTime.now();
-        this.endDate = this.startDate.plusMonths(1);
+    public void addCustomer(Customer customer) {
+        this.customers.add(customer);
     }
 
 

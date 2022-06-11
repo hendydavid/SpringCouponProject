@@ -2,6 +2,7 @@ package com.springCoupon.Services;
 
 import com.springCoupon.repositories.CompanyRepository;
 import com.springCoupon.repositories.CouponRepository;
+import com.springCoupon.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ public abstract class MainService {
     CouponRepository couponRepository;
 
     @Autowired
-    com.springCoupon.Repositories.CustomerRepository customerRepository;
+    CustomerRepository customerRepository;
 
     @Autowired
     CompanyRepository companyRepository;
