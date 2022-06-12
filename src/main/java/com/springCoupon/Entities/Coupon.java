@@ -35,7 +35,7 @@ public class Coupon {
     private Company company;
 
 
-    @ManyToMany(mappedBy = "coupons", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "coupons")
     List<Customer> customers = new ArrayList<>();
 
     private int amount;

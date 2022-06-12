@@ -6,15 +6,10 @@ import com.springCoupon.Entities.Customer;
 import com.springCoupon.Services.AdminService;
 import com.springCoupon.Services.CompanyService;
 import com.springCoupon.Services.CustomerService;
-import com.springCoupon.exception.AdminException;
-import com.springCoupon.exception.CompanyException;
-import com.springCoupon.exception.CustomerException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +25,11 @@ public class SpringCouponApplication {
         CompanyService companyService = ctx.getBean(CompanyService.class);
         CustomerService customerService = ctx.getBean(CustomerService.class);
         AdminService adminService = ctx.getBean(AdminService.class);
+        customerService.setCustomerId(6);
+        customerService.saveByCoupon(34);
 
-        customerService.deleteCustomerCoupon();
+
+//        customerService.deleteCustomerCoupon();
 
 //        customerService.deleteCustomerCoupon();
 

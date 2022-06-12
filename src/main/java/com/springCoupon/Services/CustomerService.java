@@ -2,14 +2,9 @@ package com.springCoupon.Services;
 
 import com.springCoupon.Entities.Coupon;
 import com.springCoupon.Entities.Customer;
-import com.springCoupon.exception.CouponException;
-import com.springCoupon.exception.CustomerException;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
+import com.springCoupon.exception.CouponSystemException;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,8 +17,8 @@ public class CustomerService extends MainService {
 
         if (!customerRepository.findById(this.customerId).isPresent() || !couponRepository.findById(couponId).isPresent()) {
             try {
-                throw new CustomerException("coupon or customer are not exist");
-            } catch (CustomerException e) {
+                throw new CouponSystemException("coupon or customer are not exist");
+            } catch (CouponSystemException e) {
                 e.printStackTrace();
             }
         }
@@ -33,8 +28,8 @@ public class CustomerService extends MainService {
 
         if (coupon.getAmount() <= 0) {
             try {
-                throw new CouponException("this coupon is sold out");
-            } catch (CouponException e) {
+                throw new CouponSystemException("this coupon is sold out");
+            } catch (CouponSystemException e) {
                 e.printStackTrace();
             }
 
@@ -44,19 +39,39 @@ public class CustomerService extends MainService {
         customerRepository.save(customer);
     }
 
-    public List<Integer> getAllCustomersCoupons() {
+    public List<Coupon> getAllCustomersCoupons() {
         Customer customer = customerRepository.getById(customerId);
-//        return customer.getCoupons().stream().sorted(Comparator.comparing(Coupon::getCouponId)).collect(Collectors.toList());
-        return customerRepository.getAllCustomerCoupon(customerId);
+        return customer.getCoupons();
     }
+
+    public List<Coupon> getAllCustomersCouponsByCategory(int categoryId) {
+        List<Coupon> couponByCategory = customerRepository.getById(customerId).getCoupons();
+        couponByCategory = couponByCategory.stream().filter(c -> c.getCategoryId() == categoryId).collect(Collectors.toList());
+        return couponByCategory;
+    }
+
+    public List<Coupon> getAllCustomersCouponsByMaxPrice(int maxPrice) {
+        List<Coupon> couponByMaxPrice = customerRepository.getById(customerId).getCoupons();
+        couponByMaxPrice = couponByMaxPrice.stream().filter(c -> c.getPrice() <= maxPrice).collect(Collectors.toList());
+        return couponByMaxPrice;
+    }
+
+    public String getCustomerDetails() {
+        return customerRepository.findById(this.customerId).toString();
+    }
+
+    public void saveByCoupon(int couponId) {
+        Coupon coupon = couponRepository.getById(couponId);
+        coupon.addCustomer(customerRepository.getById(this.customerId));
+
+    }
+
+//    public void deleteCustomerCoupon() {
+//        customerRepository.deleteAllCustomerCoupon(this.customerId);
+//    }
 
     public void setCustomerId(int customerId) {
         this.customerId = customerId;
-    }
-
-
-    public void deleteCustomerCoupon() {
-       customerRepository.deleteAllCustomerCoupon(this.customerId);
     }
 
 
