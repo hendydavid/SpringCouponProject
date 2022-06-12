@@ -1,19 +1,127 @@
 package com.springCoupon.Services;
 
 
+import com.springCoupon.Entities.Company;
 import com.springCoupon.Entities.Coupon;
+import com.springCoupon.Entities.Customer;
+import com.springCoupon.exception.AdminException;
 import com.springCoupon.repositories.CouponRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.SystemException;
 import javax.transaction.Transactional;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
-@Transactional
+
 @Service
 public class AdminService extends MainService {
 
+    public boolean adminLogin(String email, String password) {
+        if (!(email.equals("admin@admin.com"))) {
+            try {
+                throw new AdminException("This email is wrong");
+            } catch (AdminException e) {
+                e.getException();
+            }
+        } else if (!(password.equals("admin"))) {
 
+            try {
+                throw new AdminException("This password is wrong");
+            } catch (AdminException e) {
+                e.getException();
+            }
+        }
+        return true;
+    }
 
+    public void addCompany(Company company) throws SQLException, AdminException {
+
+        if (isEmailExist(company.getEmail())) {
+            throw new AdminException("This company already exist");
+        } else if (companyRepository.findByCompanyName(company.getCompanyName()).isPresent()) {
+            throw new AdminException("This company name already exist");
+        }
+        companyRepository.save(company);
+    }
+
+    public void updateCompanyDetails(String password, String email, Company company) throws AdminException {
+
+        if (!isEmailExist(email)) {
+            throw new AdminException("This company name isn't  exist");
+        }
+        companyRepository.save(company);
+    }
+
+    public void deleteCompany(int companyId) throws SQLException, AdminException {
+        if (!companyRepository.findById(companyId).isPresent()) {
+            throw new AdminException("This company isn't exist");
+        }
+        companyRepository.deleteById(companyId);
+    }
+
+    public List<Company> getAllCompany() {
+        return companyRepository.findAll();
+    }
+
+    public Company getOneCompany(int companyId) {
+        return companyRepository.findById(companyId).get();
+    }
+
+    public void AddCustomer(Customer customer) throws AdminException {
+
+        if (customerRepository.findByEmail(customer.getEmail()).isPresent()) {
+            throw new AdminException("this email belong to another  customer");
+        }
+        customerRepository.save(customer);
+    }
+
+    public void updateCustomerDetails(String email, String password, int customerId) throws AdminException {
+        Optional<Customer> customer = customerRepository.findById(customerId);
+
+        if (!customer.isPresent()) {
+            throw new AdminException("This customer isn't exist");
+        } else if (customerRepository.findByEmail(customer.get().getEmail()).isPresent()) {
+            throw new AdminException("this email is already exist");
+        }
+
+        Customer customerToDb = customer.get();
+        customerToDb.setEmail(email);
+        customerToDb.setPassword(password);
+        customerRepository.save(customerRepository.getById(customerId));
+    }
+
+    public void deleteCustomer(Customer customer) throws AdminException {
+
+        if (customerRepository.findByEmail(customer.getEmail()).isPresent()) {
+            throw new AdminException("this customer is not exist");
+        }
+
+        customerRepository.delete(customer);
+
+    }
+
+    public List<Customer> getAllCustomer() {
+        return customerRepository.findAll();
+    }
+
+    public Customer getOneCustomer(int customerId) throws AdminException {
+        if (!customerRepository.findById(customerId).isPresent()) {
+            throw new AdminException("this customer is not exist");
+        }
+        return customerRepository.getById(customerId);
+    }
+
+    public boolean isEmailExist(String email) {
+        return companyRepository.findByEmail(email).isPresent();
+    }
+
+    public void rakLivdok(Coupon coupon) {
+        couponRepository.save(coupon);
+    }
 
 
 }

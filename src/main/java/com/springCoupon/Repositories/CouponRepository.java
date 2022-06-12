@@ -1,15 +1,10 @@
 package com.springCoupon.repositories;
 
-import com.springCoupon.Admin;
-import com.springCoupon.Entities.Company;
 import com.springCoupon.Entities.Coupon;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
