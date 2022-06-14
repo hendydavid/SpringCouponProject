@@ -3,8 +3,10 @@ package com.springCoupon.Services;
 import com.springCoupon.Entities.Coupon;
 import com.springCoupon.Entities.Customer;
 import com.springCoupon.exception.CouponSystemException;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,12 +65,16 @@ public class CustomerService extends MainService {
     public void saveByCoupon(int couponId) {
         Coupon coupon = couponRepository.getById(couponId);
         coupon.addCustomer(customerRepository.getById(this.customerId));
+        couponRepository.save(coupon);
 
     }
 
-//    public void deleteCustomerCoupon() {
-//        customerRepository.deleteAllCustomerCoupon(this.customerId);
-//    }
+
+    @Modifying
+    @Transactional
+    public void deleteCustomerCoupon() {
+        customerRepository.deleteAllCustomerCoupon(this.customerId);
+    }
 
     public void setCustomerId(int customerId) {
         this.customerId = customerId;

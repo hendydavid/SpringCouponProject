@@ -26,7 +26,7 @@ public class Customer {
     private String email;
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private List<Coupon> coupons = new ArrayList<Coupon>();
 
     public Customer(String firstName, String lastName, String email, String password) {
