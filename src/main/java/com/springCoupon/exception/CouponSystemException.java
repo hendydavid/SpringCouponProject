@@ -1,10 +1,10 @@
 package com.springCoupon.exception;
 
-public class CustomerException extends Exception {
+public class CouponSystemException extends Exception {
 
     String exception;
 
-    public CustomerException(String exception) {
+    public CouponSystemException(String exception) {
         this.exception = exception;
     }
 

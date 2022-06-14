@@ -6,15 +6,11 @@ import com.springCoupon.Entities.Customer;
 import com.springCoupon.Services.AdminService;
 import com.springCoupon.Services.CompanyService;
 import com.springCoupon.Services.CustomerService;
-import com.springCoupon.exception.AdminException;
-import com.springCoupon.exception.CompanyException;
-import com.springCoupon.exception.CustomerException;
+import lombok.SneakyThrows;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +19,7 @@ import java.util.Random;
 @SpringBootApplication
 public class SpringCouponApplication {
 
+    @SneakyThrows
     public static void main(String[] args) {
 
         ConfigurableApplicationContext ctx = SpringApplication.run(SpringCouponApplication.class, args);
@@ -30,49 +27,8 @@ public class SpringCouponApplication {
         CompanyService companyService = ctx.getBean(CompanyService.class);
         CustomerService customerService = ctx.getBean(CustomerService.class);
         AdminService adminService = ctx.getBean(AdminService.class);
-
         customerService.deleteCustomerCoupon();
 
-//        customerService.deleteCustomerCoupon();
-
-
-//        customerService.addPurchase(231);
-
-
-        //    customerService.addPurchase(234);
-
-
-//        customerService.setCustomerId(28);
-//        customerService.addPurchase(12);
-
-//        for (int i = 1; i <= 300; i++) {
-//            adminService.addCompany(getCompany(i));
-//        }
-
-//        for (int i = 1; i <= 300; i++) {
-//            adminService.AddCustomer(getCustomer(i));
-//        }
-
-//        for (int i = 4; i <= 5; i++) {
-//            int companyId = 71;  //new Random().nextInt(299) + 1;
-//            Company company = new Company();
-//            company.setCompanyId(companyId);
-//            companyService.setCompanyId(companyId);
-//            Coupon coupon = getCoupon(i, company);
-//            try {
-//                companyService.addCoupon(coupon);
-//            } catch (CompanyException e) {
-//                e.getException();
-//            }
-//
-//
-//        }
-
-//        Customer customer = adminService.getOneCustomer(233);
-//        Coupon coupon = new Coupon();
-//        coupon.setCouponId(213);
-//        coupon.addCustomer(customer);
-//        adminService.rakLivdok(coupon);
 
 
     }

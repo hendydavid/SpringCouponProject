@@ -18,11 +18,14 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
     Optional<Customer> findByEmail(String email);
 
-    @Query(value = "select * from customers_coupons where customers_customer_id = :customer_id", nativeQuery = true)
-    List<Integer> getAllCustomerCoupon(@Param("customer_id") int customerId);
+    @Query(value = "select * from customers_coupons where customer_id = :customerId", nativeQuery = true)
+    List<Integer> getAllCustomerCoupon(@Param("customerId") int customerId);
 
 
-    @Query("delete from customers_coupons where customers_customer_id = :customer_id")
-    void deleteAllCustomerCoupon(@Param("customer_id") int customerId);
+    @Modifying
+    @Transactional
+    @Query(value = "delete form spring_coupons_project.customers_coupons where customers_customer_id = :customerId", nativeQuery = true)
+    void deleteAllCustomerCoupon(@Param("customerId ") int customerId);
+
 
 }

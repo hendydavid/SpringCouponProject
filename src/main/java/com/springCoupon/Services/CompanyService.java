@@ -1,19 +1,11 @@
 package com.springCoupon.Services;
 
-import com.springCoupon.Entities.Company;
 import com.springCoupon.Entities.Coupon;
-import com.springCoupon.exception.CompanyException;
-import com.springCoupon.repositories.CompanyRepository;
-import com.springCoupon.repositories.CouponRepository;
-import org.hibernate.annotations.Proxy;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.springCoupon.exception.CouponSystemException;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CompanyService extends MainService {
@@ -38,7 +30,7 @@ public class CompanyService extends MainService {
         return couponRepository.findByCompanyIdAndCategoryId(categoryId, companyId);
     }
 
-    public Coupon addCoupon(Coupon coupon) throws CompanyException {
+    public Coupon addCoupon(Coupon coupon) throws CouponSystemException {
         if (!isCouponExistByName(coupon)) {
             coupon.setCompany(companyRepository.getById(companyId));
             return couponRepository.save(coupon);
@@ -46,7 +38,7 @@ public class CompanyService extends MainService {
             int companyId = couponRepository.findByCouponName(coupon.getCouponName()).get().getCompany().getCompanyId();
             if (companyId == this.companyId) {
                 System.out.println("this name already in use");
-                throw new CompanyException("the same name belongs to the same company");
+                throw new CouponSystemException("the same name belongs to the same company");
             }
 
         }
@@ -64,7 +56,7 @@ public class CompanyService extends MainService {
         }
     }
 
-    public void updateCouponPrice(Coupon coupon, int price) {
+    public void updateCouponPrice(Coupon coupon, int price)  {
 
         if (!isCouponExistByName(coupon)) {
             System.out.println("this coupons is not exist");
